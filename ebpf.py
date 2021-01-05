@@ -7,6 +7,8 @@
 
 from xlatxir.xir.anno import xirdecl
 
+# inline declarations, these could also be provided in a .pyi file.
+
 def htole16(a: u16) -> u16: ...
 def htole32(a: u32) -> u32: ...
 def htole64(a: u64) -> u64: ...
@@ -58,9 +60,9 @@ def EBPF_OP_ARSH(value: s32, shift: u32) -> s32:
 
 def EBPF_OP_LE(value: u64, size: u32) -> u64:
     if size == 16:
-        dst = zext(htole16(truncate(value, 16)), 64)
+        dst = zext_64(htole16(truncate_16(value)))
     elif size == 32:
-        dst = zext(htole32(truncate(value, 32)), 64)
+        dst = zext_64(htole32(truncate_32(value)))
     elif size == 64:
         dst = htole64(value)
     else:
@@ -71,9 +73,9 @@ def EBPF_OP_LE(value: u64, size: u32) -> u64:
 
 def EBPF_OP_BE(value: u64, size: u32) -> u64:
     if size == 16:
-        dst = zext(htobe16(truncate(value, 16)), 64)
+        dst = zext_64(htobe16(truncate_16(value)))
     elif size == 32:
-        dst = zext(htobe32(truncate(value, 32)), 64)
+        dst = zext_64(htobe32(truncate_32(value)))
     elif size == 64:
         dst = htobe64(value)
     else:
